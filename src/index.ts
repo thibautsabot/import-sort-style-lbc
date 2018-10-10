@@ -1,4 +1,4 @@
-import {IStyleAPI, IStyleItem} from "import-sort-style";
+import { IStyleAPI, IStyleItem } from "import-sort-style";
 
 export default function(styleApi: IStyleAPI): Array<IStyleItem> {
   const {
@@ -12,47 +12,47 @@ export default function(styleApi: IStyleAPI): Array<IStyleItem> {
     moduleName,
     naturally,
     unicode,
-    startsWith,
+    startsWith
   } = styleApi;
 
+  // @ts-ignore
   return [
     // import "foo" with side effects
-    {match: and(hasNoMember, isAbsoluteModule)},
-    {separator: true},
+    { match: and(hasNoMember, isAbsoluteModule) },
+    { separator: true },
 
     // import "./foo" with side effects
-    {match: and(hasNoMember, isRelativeModule)},
-    {separator: true},
+    { match: and(hasNoMember, isRelativeModule) },
+    { separator: true },
 
     // import … from "fs";
     {
       match: isNodeModule,
-      sort: moduleName(naturally),
+      sort: moduleName(naturally)
     },
-    {separator: false},
+    { separator: false },
 
     // import … from "foo";
     {
       match: isAbsoluteModule,
-      sort: moduleName(naturally),
+      sort: moduleName(naturally)
     },
-    {separator: true},
-
+    { separator: true },
 
     // import … from "$src/";
     {
-      match: startsWith('$'),
-      sort: moduleName(naturally),
+      match: startsWith("$"),
+      sort: moduleName(naturally)
     },
-    {separator: true},
+    { separator: true },
 
     // import … from "./foo";
     // import … from "../foo";
     {
       match: isRelativeModule,
       sort: [dotSegmentCount, moduleName(naturally)],
-      sortNamedMembers: alias(unicode),
+      sortNamedMembers: alias(unicode)
     },
-    {separator: true},
+    { separator: true }
   ];
 }
