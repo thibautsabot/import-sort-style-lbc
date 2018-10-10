@@ -1,5 +1,9 @@
 import { IStyleAPI, IStyleItem } from "import-sort-style";
 
+function isAliasModule({ moduleName }) {
+  return moduleName.startsWith("$");
+}
+
 export default function(styleApi: IStyleAPI): Array<IStyleItem> {
   const {
     alias,
@@ -10,9 +14,9 @@ export default function(styleApi: IStyleAPI): Array<IStyleItem> {
     isNodeModule,
     isRelativeModule,
     moduleName,
+    not,
     naturally,
-    unicode,
-    startsWith
+    unicode
   } = styleApi;
 
   // @ts-ignore
@@ -27,21 +31,21 @@ export default function(styleApi: IStyleAPI): Array<IStyleItem> {
 
     // import … from "fs";
     {
-      match: isNodeModule,
+      match: and(isNodeModule, not(isAliasModule)),
       sort: moduleName(naturally)
     },
     { separator: false },
 
     // import … from "foo";
     {
-      match: isAbsoluteModule,
+      match: and(isAbsoluteModule, not(isAliasModule)),
       sort: moduleName(naturally)
     },
     { separator: true },
 
     // import … from "$src/";
     {
-      match: startsWith("$"),
+      match: isAliasModule,
       sort: moduleName(naturally)
     },
     { separator: true },
