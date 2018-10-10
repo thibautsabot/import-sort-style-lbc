@@ -1,0 +1,20 @@
+{
+  "name": "import-sort-style-lbc",
+  "version": "1.0.0",
+  "description": "An import-sort style that groups and sorts by path types",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc -p src",
+    "build:watch": "tsc -p src -w"
+  },
+  "author": "Thibaut SABOT (https://github.com/GinjiBan)",
+  "repository": "ginjiban/import-sort-style-lbc",
+  "license": "ISC",
+  "devDependencies": {
+    "import-sort-style": "^5.0.0",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.2"
+  }
+}
