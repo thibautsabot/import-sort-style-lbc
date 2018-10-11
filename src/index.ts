@@ -3,20 +3,21 @@ import { IStyleAPI, IStyleItem } from "import-sort-style";
 function isAliasModule({ moduleName }) {
   return moduleName.startsWith("$");
 }
+function isStyle({ moduleName }) {
+  return moduleName.endsWith(".scss") || moduleName.endsWith(".css");
+}
 
 export default function(styleApi: IStyleAPI): Array<IStyleItem> {
   const {
-    alias,
     and,
     dotSegmentCount,
     hasNoMember,
     isAbsoluteModule,
     isNodeModule,
     isRelativeModule,
-    name,
+    member,
     not,
-    naturally,
-    unicode
+    naturally
   } = styleApi;
 
   // @ts-ignore
@@ -32,30 +33,34 @@ export default function(styleApi: IStyleAPI): Array<IStyleItem> {
     // import … from "fs";
     {
       match: and(isNodeModule, not(isAliasModule)),
-      sort: name(naturally)
+      sort: member(naturally)
     },
     { separator: false },
 
     // import … from "foo";
     {
       match: and(isAbsoluteModule, not(isAliasModule)),
-      sort: name(naturally)
+      sort: member(naturally)
     },
     { separator: true },
 
     // import … from "$src/";
     {
       match: isAliasModule,
-      sort: name(naturally)
+      sort: member(naturally)
     },
     { separator: true },
 
     // import … from "./foo";
     // import … from "../foo";
     {
-      match: isRelativeModule,
-      sort: [dotSegmentCount, name(naturally)],
-      sortNamedMembers: alias(unicode)
+      match: and(isRelativeModule, not(isStyle)),
+      sort: [dotSegmentCount, member(naturally)]
+    },
+    { separator: false },
+    // import … from "./styles";
+    {
+      match: isStyle
     },
     { separator: true }
   ];

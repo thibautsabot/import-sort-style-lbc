@@ -7,6 +7,14 @@ Inspired from : [import-sort-style-module](https://github.com/renke/import-sort/
 
 (It'll **not** reorder a module if it has side effects)
 
+# Demo :
+
+Auto Sorting on save
+
+![](autoSort.gif)
+
+# Details :
+
 Sorting with this particular order :
 
 ```js
@@ -21,11 +29,11 @@ import cc from "cc";
 import aaa from "$src/aaa";
 import bbb from "$src/bbb";
 
-// Modules with a relative path sorted by "depth" and then by name
+// Modules with a relative path sorted by "depth" and then by name. Styles files will always be at the end.
 import aaa from "../../aaa";
 import bbb from "../../bbb";
 import aaaaa from "./aaaaa";
-import bbbbb from "./bbbbb";
+import styles from "./styles.scss";
 ```
 
 To enable the plugin add this to your package.json :
