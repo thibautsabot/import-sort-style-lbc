@@ -13,7 +13,7 @@ export default function(styleApi: IStyleAPI): Array<IStyleItem> {
     isAbsoluteModule,
     isNodeModule,
     isRelativeModule,
-    moduleName,
+    name,
     not,
     naturally,
     unicode
@@ -32,21 +32,21 @@ export default function(styleApi: IStyleAPI): Array<IStyleItem> {
     // import … from "fs";
     {
       match: and(isNodeModule, not(isAliasModule)),
-      sort: moduleName(naturally)
+      sort: name(naturally)
     },
     { separator: false },
 
     // import … from "foo";
     {
       match: and(isAbsoluteModule, not(isAliasModule)),
-      sort: moduleName(naturally)
+      sort: name(naturally)
     },
     { separator: true },
 
     // import … from "$src/";
     {
       match: isAliasModule,
-      sort: moduleName(naturally)
+      sort: name(naturally)
     },
     { separator: true },
 
@@ -54,7 +54,7 @@ export default function(styleApi: IStyleAPI): Array<IStyleItem> {
     // import … from "../foo";
     {
       match: isRelativeModule,
-      sort: [dotSegmentCount, moduleName(naturally)],
+      sort: [dotSegmentCount, name(naturally)],
       sortNamedMembers: alias(unicode)
     },
     { separator: true }
