@@ -37,6 +37,7 @@ import styles from "./styles.scss";
 ```
 
 To enable the plugin add this to your package.json :
+(You can use typescript as a parser)
 
 ```
 "importSort": {
